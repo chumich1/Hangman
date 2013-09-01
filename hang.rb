@@ -4,27 +4,33 @@ $contents = File.open(fname, "r"){ |file| file.readlines }
 
 
 
-#puts contents[rand(contents.size)]
 
 
+#variables are global because they are accessed throughout
  $word = $contents[rand($contents.size)]
  $letters_tried = []
  $letters_remaining = ('a'..'z').to_a
  $turns_remaining = 10
  $letters_correct = 0
+ $unique_letters = $word.scan(/./).uniq.size
 
+ #starts a new game
 def newGame
   $word = $contents[rand($contents.size)]
   $letters_tried = []
   $letters_remaining = ('a'..'z').to_a
   $turns_remaining = 10
   $letters_correct = 0
+  $unique_letters = $word.scan(/./).uniq.size
   turn
 end
 
+#prints the current status of the game
 def printWord
   temp = 0
     print "THE WORD \n"
+    #for each letter, check if it has been guessed and print
+    #the appropriate character
     while(temp < $word.size-1)
       
       if($letters_tried.include?($word[temp]))
@@ -34,6 +40,19 @@ def printWord
       end
     temp += 1
     end
+end
+
+#checks if the game is over
+def gameOverCheck
+  if($letters_correct == $unique_letters)
+     print "You won!\n"
+     printWord
+   elsif($letters_correct != $unique_letters and $turns_remaining == 0)
+     print "You lose! The word was: #{$word} "
+     
+   else
+     turn
+   end
 end
 
 def turn
@@ -48,6 +67,8 @@ def turn
   print "Guess: "
   guess = gets.chomp.to_s
   end
+  
+  #checks if the letter guessed is in the word
   if($word.include?(guess))
     print "Good guess!"
     $letters_correct += 1
@@ -57,19 +78,12 @@ def turn
     $turns_remaining -= 1
   end
   
+  #removes letter from remaining array and adds it to tried array
   $letters_remaining.delete(guess)
   $letters_tried.push(guess)
   
-  if($letters_correct == $word.scan(/./).uniq.size)
-    print "You won!"
-    printWord
-  elsif($letters_correct != $word.scan(/./).uniq.size and $turns_remaining == 0)
-    print "You lose! The word was: #{$word} "
-    
-  else
-    turn
-  end
-  
+ 
+  gameOverCheck
   
   
 end
