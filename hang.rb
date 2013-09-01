@@ -88,5 +88,10 @@ def turn
   
 end
 
-
+$keep_playing = true
+while($keep_playing)
 newGame
+print "Do you want to play again? (q to quit or anything else to continue)"
+again = gets.chomp
+  if(again == 'q') then $keep_playing = false end
+end
