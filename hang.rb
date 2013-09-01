@@ -55,21 +55,20 @@ def gameOverCheck
    end
 end
 
-def turn
-  print $word
+#checks if the letter guessed is in the word
+def guessLetter
 
-  printWord
-  print "\n Bad guesses (only #{$turns_remaining} left): #{$letters_tried} \n"
-  
   print "Guess: "
-  guess = gets.chomp.to_s
-  while($letters_tried.include?(guess) or guess == "")
-  print "Guess: "
-  guess = gets.chomp.to_s
-  end
+    guess = gets.chomp.to_s.downcase[0]
+    while($letters_tried.include?(guess) or guess == "")
+    print "Guess: "
+    guess = gets.chomp.to_s.downcase[0]
+    end
   
-  #checks if the letter guessed is in the word
-  if($word.include?(guess))
+  if(guess == "!")
+    guessWord
+    return false
+  elsif($word.include?(guess))
     print "Good guess!"
     $letters_correct += 1
     print "Letters correct: #{$letters_correct} \n"
@@ -78,15 +77,37 @@ def turn
     $turns_remaining -= 1
   end
   
-  #removes letter from remaining array and adds it to tried array
-  $letters_remaining.delete(guess)
-  $letters_tried.push(guess)
+#removes letter from remaining array and adds it to tried array
+$letters_remaining.delete(guess)
+$letters_tried.push(guess)
+return true
+end
+
+def guessWord
+  print "What is the word? "
+  guess = gets.to_s
+  if(guess == $word)
+    print "Contratulations! You have guessed correctly! \n"
+  else
+    print "I'm sorry, your guess was wrong. The correct word was: #{$word}"
+  end
+end
+
+#The turn function. Most of the other functions are called here.
+def turn
+  print $word
+
+  printWord
+  print "\n Bad guesses (only #{$turns_remaining} left): #{$letters_tried} \n"
   
- 
-  gameOverCheck
+  
+  
+  if(guessLetter) then gameOverCheck end
   
   
 end
+
+print "Welcome to Hangman: The Movie: The Game. \n If at any time you want to guess the word, enter an exclamation point (!)"
 
 $keep_playing = true
 while($keep_playing)
