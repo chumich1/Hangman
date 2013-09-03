@@ -7,14 +7,9 @@ $contents = File.open(fname, "r"){ |file| file.readlines }
 
 
 #variables are global because they are accessed throughout
- $word = $contents[rand($contents.size)]
- $letters_tried = []
- $letters_remaining = ('a'..'z').to_a
- $turns_remaining = 10
- $letters_correct = 0
- $unique_letters = $word.scan(/./).uniq.size
+#the word is selected randomly from the contents array
 
- #starts a new game
+#starts a new game
 def newGame
   $word = $contents[rand($contents.size)]
   $letters_tried = []
@@ -95,7 +90,7 @@ end
 
 #The turn function. Most of the other functions are called here.
 def turn
-  print $word
+  #print $word
 
   printWord
   print "\n Bad guesses (only #{$turns_remaining} left): #{$letters_tried} \n"
@@ -107,7 +102,7 @@ def turn
   
 end
 
-print "Welcome to Hangman: The Movie: The Game. \n If at any time you want to guess the word, enter an exclamation point (!)"
+print "Welcome to Hangman: The Movie: The Game. \n If at any time you want to guess the word, enter an exclamation point (!)\n"
 
 $keep_playing = true
 while($keep_playing)
