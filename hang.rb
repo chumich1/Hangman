@@ -1,15 +1,20 @@
+#Andrew Chumich
+
+require "./Words"
+
 class HangMan
 
  
   
 #read in word file and create an array of words
- def initialize
-fname = "words.txt"
-@contents = File.open(fname, "r"){ |file| file.readlines }
+ def initialize(file = "words.txt")
+ @words = Words.new(file)
+
+
  end
 
  def choseWord
-   @word = @contents[rand(@contents.size)]
+   @word = @words.choseWord()
  end
 
 
@@ -91,7 +96,7 @@ end
 def guessWord
   print "What is the word? "
   guess = gets.to_s
-  if(guess == @word)
+  if(guess.downcase == @word)
     print "Contratulations! You have guessed correctly! \n"
   else
     print "I'm sorry, your guess was wrong. The correct word was: #{@word}"
@@ -130,3 +135,6 @@ attr_accessor :word
 attr_accessor :contents
 
 end
+
+
+
